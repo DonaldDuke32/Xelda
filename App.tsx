@@ -1,7 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import { useAuthStore } from './src/stores/authStore';
+import { useDesignStore } from './src/stores/designStore';
 import type { Style, Message, UploadedFile, FurnitureItem, GalleryItem } from './types';
 import { UI_TEXT, STYLES, GENERATING_MESSAGES, MOCK_GALLERY_ITEMS } from './constants';
-import { Header } from './components/Header';
+import { Header } from './src/components/Layout/Header';
+import { AuthModal } from './src/components/Auth/AuthModal';
 import { UploadSection } from './components/UploadSection';
 import { StyleCarousel } from './components/StyleCarousel';
 import { GenerationView } from './components/GenerationView';

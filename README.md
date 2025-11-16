@@ -6,6 +6,8 @@
   <p style="font-size: 1.25rem; color: #E5E7EB;">
     Votre Assistant de Design d'Intérieur IA de Nouvelle Génération
   </p>
+  
+  <p><strong>🚀 Version SaaS Production-Ready - Intégration complète Supabase + Auth + Paiements</strong></p>
 </div>
 
 <br>
