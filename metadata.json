@@ -1,0 +1,7 @@
+{
+  "name": "XELDA - AI Bedroom Design Assistant",
+  "description": "XELDA is an advanced AI-powered bedroom design assistant that transforms ordinary bedroom photos into beautifully designed, professionally styled spaces using cutting-edge image modification technology.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

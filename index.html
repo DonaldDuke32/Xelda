@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>XELDA - AI Bedroom Design Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #000000;
+        background-image: 
+          radial-gradient(circle at 10% 15%, rgba(255, 165, 0, 0.1), transparent 35%),
+          radial-gradient(circle at 90% 85%, rgba(255, 215, 0, 0.1), transparent 40%);
+      }
+      .scrollbar-thin {
+        scrollbar-width: thin;
+        scrollbar-color: #4b5563 #1f2937;
+      }
+      .scrollbar-thin::-webkit-scrollbar {
+        width: 8px;
+      }
+      .scrollbar-thin::-webkit-scrollbar-track {
+        background: #1f2937;
+      }
+      .scrollbar-thin::-webkit-scrollbar-thumb {
+        background-color: #4b5563;
+        border-radius: 20px;
+        border: 3px solid #1f2937;
+      }
+      .shimmer-button::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -150%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+      }
+      .shimmer-button:hover::after {
+        transform: translateX(250%);
+      }
+      @keyframes message-in {
+        from {
+          opacity: 0;
+          transform: translateY(15px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .animate-message-in {
+        animation: message-in 0.5s ease-out forwards;
+      }
+      @keyframes icon-breath {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+      }
+      .animate-icon-breath {
+        animation: icon-breath 2.5s ease-in-out infinite;
+      }
+
+      /* 3D Cube Animation for AR Modal */
+      .scene {
+        width: 100px;
+        height: 100px;
+        perspective: 400px;
+      }
+      .cube {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transform: translateZ(-50px);
+        animation: rotate-cube 12s infinite linear;
+      }
+      .cube__face {
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        border: 2px solid #F97316;
+        background: rgba(251, 191, 36, 0.1);
+        font-size: 40px;
+        font-weight: bold;
+        color: #FBBF24;
+        text-align: center;
+        line-height: 100px;
+      }
+      .cube__face--front  { transform: rotateY(  0deg) translateZ(50px); }
+      .cube__face--right  { transform: rotateY( 90deg) translateZ(50px); }
+      .cube__face--back   { transform: rotateY(180deg) translateZ(50px); }
+      .cube__face--left   { transform: rotateY(-90deg) translateZ(50px); }
+      .cube__face--top    { transform: rotateX( 90deg) translateZ(50px); }
+      .cube__face--bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+      @keyframes rotate-cube {
+        from { transform: rotateY(0deg) rotateX(0deg); }
+        to { transform: rotateY(360deg) rotateX(360deg); }
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.29.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-black">
+    <div id="root"></div>
+    <div id="modal-root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
