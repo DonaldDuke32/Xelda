@@ -57,12 +57,11 @@ export const ModernHeader: React.FC<ModernHeaderProps> = ({
           className="flex items-center gap-3"
         >
           <div className="relative">
-            <div className="w-8 h-8 bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-8 h-8 bg-orange-500 rounded-xl flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <div className="absolute -inset-1 bg-gradient-to-br from-orange-400 via-pink-500 to-purple-600 rounded-xl blur opacity-20"></div>
           </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+          <span className="text-xl font-bold text-gray-900">
             XELDA
           </span>
         </motion.div>

@@ -83,7 +83,9 @@ const ToastItem: React.FC<{
       setProgress((prev) => {
         const newProgress = prev - (100 / (duration / 100))
         if (newProgress <= 0) {
-          onRemove(toast.id)
+          clearInterval(timer)
+          // Use setTimeout to avoid state update during render
+          setTimeout(() => onRemove(toast.id), 0)
           return 0
         }
         return newProgress

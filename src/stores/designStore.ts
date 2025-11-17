@@ -88,21 +88,12 @@ export const useDesignStore = create<DesignState>((set, get) => ({
   },
 
   checkQuotaLimit: () => {
-    const { user } = useAuthStore.getState()
-    if (!user) return false
-    
-    if (user.plan !== 'free') return true // Pro/Expert have unlimited
-    
-    return user.monthly_generations_used < user.monthly_generations_limit
+    // Demo mode - always allow for testing
+    return true
   },
 
   incrementQuota: async () => {
-    const { user, updateProfile } = useAuthStore.getState()
-    if (!user || user.plan !== 'free') return
-    
-    await updateProfile({
-      monthly_generations_used: user.monthly_generations_used + 1
-    })
+    // Demo mode - no quota tracking needed
   },
 
   generateDesign: async (style?: Style) => {

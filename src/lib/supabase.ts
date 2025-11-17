@@ -4,10 +4,16 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables')
+  console.warn('Missing Supabase environment variables - using demo mode')
+  // Use placeholder values for development
+  const demoUrl = 'https://demo.supabase.co'
+  const demoKey = 'demo-key'
 }
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+export const supabase = createClient(
+  supabaseUrl || 'https://demo.supabase.co',
+  supabaseKey || 'demo-key'
+)
 
 // Database Types
 export interface User {

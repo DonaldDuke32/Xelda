@@ -57,12 +57,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
   }
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 overflow-hidden">
+    <div className="relative min-h-screen flex items-center justify-center bg-gray-50 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-br from-orange-200 to-pink-200 rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-purple-200 to-blue-200 rounded-full blur-3xl opacity-20"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-pink-200 to-purple-200 rounded-full blur-3xl opacity-10"></div>
+        <div className="absolute top-20 left-20 w-72 h-72 bg-orange-100 rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-orange-50 rounded-full blur-3xl opacity-30"></div>
       </div>
 
       <motion.div
@@ -73,15 +72,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onGetStarted }) => {
       >
         {/* Main Heading */}
         <motion.div variants={itemVariants} className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm border border-orange-200 rounded-full px-4 py-2 mb-6">
-            <Sparkles className="w-4 h-4 text-orange-500" />
-            <span className="text-sm font-medium text-gray-700">AI-Powered Interior Design</span>
+          <div className="inline-flex items-center gap-2 bg-orange-50 border border-orange-200 rounded-full px-4 py-2 mb-6">
+            <Sparkles className="w-4 h-4 text-orange-600" />
+            <span className="text-sm font-medium text-orange-800">AI-Powered Interior Design</span>
           </div>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6">
             <span className="text-gray-900">Transform Your</span>
             <br />
-            <span className="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 bg-clip-text text-transparent">
+            <span className="text-orange-600">
               Dream Space
             </span>
           </h1>

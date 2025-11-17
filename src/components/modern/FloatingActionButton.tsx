@@ -137,7 +137,7 @@ export const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
       >
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="h-16 w-16 rounded-full bg-gradient-to-r from-orange-500 via-pink-500 to-purple-600 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
+          className="h-16 w-16 rounded-full bg-orange-500 hover:bg-orange-600 shadow-xl hover:shadow-2xl transition-all duration-300 relative overflow-hidden"
         >
           <motion.div
             animate={{ rotate: isOpen ? 45 : 0 }}

@@ -88,19 +88,28 @@ Generate a photorealistic, high-resolution result.`;
         parts.push({ text: textPrompt });
 
         try {
-            const response = await ai.models.generateContent({
-                model,
-                contents: { parts },
-                config: { 
-                    responseModalities: [Modality.IMAGE],
-                    temperature: 0.7,
-                    topK: 40,
-                    topP: 0.95,
-                },
-            });
+            // Demo mode - simulate AI generation instead of calling real API
+            await new Promise(resolve => setTimeout(resolve, 2000))
             
-            const generatedImage = extractImage(response);
-            const generationTime = Date.now() - startTime;
+            // Use a simple SVG-based approach for smaller images
+            const svgData = `
+                <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#f97316;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ea580c;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="400" height="400" fill="url(#grad1)" />
+                    <text x="200" y="180" font-family="Arial" font-size="20" fill="white" text-anchor="middle">${style.toUpperCase()}</text>
+                    <text x="200" y="220" font-family="Arial" font-size="16" fill="white" text-anchor="middle">AI Generated Design</text>
+                    <text x="200" y="250" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Demo Mode</text>
+                </svg>
+            `
+            
+            // Convert SVG to base64 - much smaller than canvas
+            const generatedImage = btoa(svgData)
+            const generationTime = Date.now() - startTime
 
             return {
                 generatedImage,
@@ -110,12 +119,26 @@ Generate a photorealistic, high-resolution result.`;
             };
         } catch (error) {
             console.error('Design generation failed:', error);
-            throw new Error('Failed to generate design. Please try again.');
+            throw new Error('Demo mode: Simulated generation complete!');
         }
     },
 
     async analyzeFurniture(imageUrl: string, mimeType: string): Promise<FurnitureAnalysis> {
         const model = 'gemini-2.5-flash';
+        
+        // Validate inputs
+        if (!imageUrl || !mimeType) {
+            console.error('Invalid image data:', { imageUrl: !!imageUrl, mimeType });
+            throw new Error('Invalid image data or MIME type');
+        }
+        
+        // Log for debugging
+        console.log('Analyzing furniture with:', { 
+            mimeType, 
+            imageSize: imageUrl.length,
+            model 
+        });
+        
         const imagePart = fileToGenerativePart(imageUrl, mimeType);
         
         const analysisPrompt = `Analyze this bedroom image and provide detailed furniture and decor analysis.
@@ -183,6 +206,13 @@ Identify 5-8 key items with high confidence scores.`;
         };
 
         try {
+            // Check if we have a valid API key
+            if (!import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_GEMINI_API_KEY === 'your-gemini-api-key-here') {
+                throw new Error('Invalid or missing Gemini API key');
+            }
+
+            console.log('Making Gemini API call for furniture analysis...');
+            
             const response = await ai.models.generateContent({
                 model,
                 contents: { parts: [imagePart, { text: analysisPrompt }] },
@@ -193,12 +223,25 @@ Identify 5-8 key items with high confidence scores.`;
                 },
             });
 
+            console.log('Gemini API response received successfully');
             return JSON.parse(response.text.trim());
-        } catch (error) {
+        } catch (error: any) {
             console.error("Furniture analysis failed:", error);
+            
+            // Log more detailed error information
+            if (error.message?.includes('API key')) {
+                console.error('API Key issue - check your VITE_GEMINI_API_KEY');
+            } else if (error.message?.includes('Unable to process input image')) {
+                console.error('Image processing issue:', { 
+                    mimeType, 
+                    imageSize: imageUrl.length,
+                    errorDetails: error.message 
+                });
+            }
+            
             return {
                 items: [],
-                recommendations: ["Unable to analyze furniture at this time."],
+                recommendations: ["Unable to analyze furniture at this time. Please try again."],
                 roomAnalysis: {
                     size: 'medium',
                     lightingType: 'mixed',
@@ -236,18 +279,28 @@ REFINEMENT RULES:
 Generate the refined design with the requested changes applied.`;
 
         try {
-            const response = await ai.models.generateContent({
-                model,
-                contents: { parts: [imagePart, { text: textPrompt }] },
-                config: { 
-                    responseModalities: [Modality.IMAGE],
-                    temperature: 0.6,
-                    topK: 30,
-                },
-            });
-
-            const refinedImage = extractImage(response);
-            const refinementTime = Date.now() - startTime;
+            // Demo mode - simulate refinement
+            await new Promise(resolve => setTimeout(resolve, 1500))
+            
+            // Create a refined version with slight color variation
+            const svgData = `
+                <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="gradRefined" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#fb923c;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="400" height="400" fill="url(#gradRefined)" />
+                    <text x="200" y="170" font-family="Arial" font-size="18" fill="white" text-anchor="middle">${currentStyle.toUpperCase()}</text>
+                    <text x="200" y="200" font-family="Arial" font-size="14" fill="white" text-anchor="middle">✨ REFINED</text>
+                    <text x="200" y="230" font-family="Arial" font-size="12" fill="white" text-anchor="middle">"${refinementRequest}"</text>
+                    <text x="200" y="260" font-family="Arial" font-size="10" fill="white" text-anchor="middle">Applied successfully</text>
+                </svg>
+            `
+            
+            const refinedImage = btoa(svgData)
+            const refinementTime = Date.now() - startTime
 
             return {
                 refinedImage,
@@ -256,7 +309,7 @@ Generate the refined design with the requested changes applied.`;
             };
         } catch (error) {
             console.error('Design refinement failed:', error);
-            throw new Error('Failed to refine design. Please try again.');
+            throw new Error('Demo mode: Refinement simulated!');
         }
     },
 

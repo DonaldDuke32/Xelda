@@ -112,10 +112,11 @@ export const FeatureSpotlight: React.FC<FeatureSpotlightProps> = ({
     })
 
     if (relevantFeatures.length > 0 && !currentFeature) {
-      // Show the first relevant feature after a delay
+      // Show the first relevant feature after a much longer delay (or disable for now)
       const timer = setTimeout(() => {
-        setCurrentFeature(relevantFeatures[0])
-      }, 3000)
+        // Disabled for demo - too annoying
+        // setCurrentFeature(relevantFeatures[0])
+      }, 30000)
       return () => clearTimeout(timer)
     }
   }, [userPlan, isNewUser, dismissedFeatures, currentFeature])

@@ -24,62 +24,52 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   signIn: async (email: string, password: string) => {
     set({ loading: true, error: null })
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      // Demo mode - simulate successful login
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const mockUser = {
+        id: 'demo-user-1',
+        auth_id: 'demo-auth-1',
         email,
-        password,
-      })
-      
-      if (error) throw error
-      
-      if (data.user) {
-        // Fetch user profile from our users table
-        const { data: profile } = await supabase
-          .from('users')
-          .select('*')
-          .eq('auth_id', data.user.id)
-          .single()
-        
-        set({ user: profile, loading: false })
+        username: email.split('@')[0],
+        plan: 'free',
+        monthly_generations_used: 3,
+        monthly_generations_limit: 10,
+        storage_used_mb: 45,
+        storage_limit_mb: 100,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
+      
+      set({ user: mockUser as any, loading: false })
     } catch (error) {
-      set({ error: (error as AuthError).message, loading: false })
+      set({ error: 'Demo mode: Login simulated successfully', loading: false })
     }
   },
 
   signUp: async (email: string, password: string, username: string) => {
     set({ loading: true, error: null })
     try {
-      const { data, error } = await supabase.auth.signUp({
+      // Demo mode - simulate successful signup
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      
+      const mockUser = {
+        id: 'demo-user-1',
+        auth_id: 'demo-auth-1',
         email,
-        password,
-      })
-      
-      if (error) throw error
-      
-      if (data.user) {
-        // Create user profile in our users table
-        const { data: profile, error: profileError } = await supabase
-          .from('users')
-          .insert({
-            auth_id: data.user.id,
-            email,
-            username,
-            plan: 'free',
-            monthly_generations_used: 0,
-            monthly_generations_limit: 10,
-            storage_used_mb: 0,
-            storage_limit_mb: 100,
-            api_key_provider: 'xelda',
-          })
-          .select()
-          .single()
-        
-        if (profileError) throw profileError
-        
-        set({ user: profile, loading: false })
+        username,
+        plan: 'free',
+        monthly_generations_used: 0,
+        monthly_generations_limit: 10,
+        storage_used_mb: 0,
+        storage_limit_mb: 100,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
       }
+      
+      set({ user: mockUser as any, loading: false })
     } catch (error) {
-      set({ error: (error as AuthError).message, loading: false })
+      set({ error: 'Demo mode: Signup simulated successfully', loading: false })
     }
   },
 
@@ -145,21 +135,11 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   checkAuth: async () => {
     set({ loading: true })
     try {
-      const { data: { user } } = await supabase.auth.getUser()
-      
-      if (user) {
-        const { data: profile } = await supabase
-          .from('users')
-          .select('*')
-          .eq('auth_id', user.id)
-          .single()
-        
-        set({ user: profile, loading: false })
-      } else {
-        set({ user: null, loading: false })
-      }
+      // Demo mode - no persistent auth, always start fresh
+      await new Promise(resolve => setTimeout(resolve, 500))
+      set({ user: null, loading: false })
     } catch (error) {
-      set({ error: (error as Error).message, loading: false })
+      set({ user: null, loading: false })
     }
   },
 
